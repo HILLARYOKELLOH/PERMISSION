@@ -1,38 +1,35 @@
 package com.jwt.restapi.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
-import jakarta.persistence.Temporal;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
-import static jakarta.persistence.TemporalType.TIMESTAMP;
-
+@Data
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
-@AllArgsConstructor
-@NoArgsConstructor
-@Data
 public abstract class Auditable<U> {
+
     @CreatedBy
-    protected U createdBy;
+    @Column(name = "created_by", updatable = false)
+    private U createdBy;
 
     @CreatedDate
-    @Temporal(TIMESTAMP)
-    protected Date createdDate;
+    @Column(name = "created_date", updatable = false)
+    private LocalDateTime createdDate;
 
     @LastModifiedBy
-    protected U lastModifiedBy;
+    @Column(name = "last_modified_by")
+    private U lastModifiedBy;
 
     @LastModifiedDate
-    @Temporal(TIMESTAMP)
-    protected Date lastModifiedDate;
+    @Column(name = "last_modified_date")
+    private LocalDateTime lastModifiedDate;
 }
